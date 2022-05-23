@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Tween Test</title>
+<script src="jquery-3.6.0.min.js"></script>
+<script src="Tween.js"></script>
+<script src="Sequence.js"></script>
+<script src="Parallel.js"></script>
+</head>
+<body>
+
+<img src="images/h_왕.png" id="mal" style="position: relative; left: 0px;" />
+<input type="button" value="move" onclick="myparallel();"/>
+
+<script>
+	function mymove(){
+		var i = document.getElementById("mal");
+		var t = new Tween(i.style, 'left', Tween.regularEaseIn, 0, 500, 1, 'px'); 
+		t.start();		
+	}
+	
+	function myserial(){
+		var i = document.getElementById("mal");
+		
+		var seq = new Sequence();
+		seq.addChild(new Tween(i.style, 'left', Tween.regularEaseIn, 0, 500, 1, 'px'));
+		seq.addChild(new Tween(i.style, 'top', Tween.regularEaseIn, 0, 500, 1, 'px'));
+		seq.start();
+	}
+	
+	function myparallel(){
+		var i = document.getElementById("mal");
+		
+		var p = new Parallel();
+		p.addChild(new Tween(i.style, 'left', Tween.regularEaseIn, 0, 500, 1, 'px'));
+		p.addChild(new Tween(i.style, 'top', Tween.regularEaseIn, 0, 500, 1, 'px'));
+		
+		p.start();
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link class="include" rel="stylesheet" type="text/css" href="jquery.jqplot.min.css" />
+<script class="include" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script class="include" type="text/javascript" src="jquery.jqplot.min.js"></script>
+	
+<script class="code" type="text/javascript">
+	
+	function set_sNames(){
+		let s_names = document.getElementsByClassName('s_name');
+		
+		for(let i=0; i<a.length; i++){
+			s_names[i].innerHTML = a[i];
+		}
+	}
+	
+	function drawTable(){
+		let cnt5 = a.length / 6;
+		let text = "";
+	      
+	    for(var i=0;i<cnt5;i++){
+	       text += "<tr>";
+	       text += "    <td class='s_name'>__</td>";
+	       text += "    <td class='s_name'>__</td>";
+	       text += "    <td class='s_name'>__</td>";
+	       text += "    <td class='s_name'>__</td>";
+	       text += "    <td class='s_name'>__</td>";
+	       text += "</tr>";
+	       text += "<tr>";
+	       text += "    <td><div id='chart"+(5*i+0)+"' style='height:300px; width:300px;'></div></td>";
+	       text += "    <td><div id='chart"+(5*i+1)+"' style='height:300px; width:300px;'></div></td>";
+	       text += "    <td><div id='chart"+(5*i+2)+"' style='height:300px; width:300px;'></div></td>";
+	       text += "    <td><div id='chart"+(5*i+3)+"' style='height:300px; width:300px;'></div></td>";
+	       text += "    <td><div id='chart"+(5*i+4)+"' style='height:300px; width:300px;'></div></td>";
+	       text += "</tr>";
+// 		<tr>
+// 			<td class="s_name"></td>
+// 			<td class="s_name"></td>
+// 			<td class="s_name"></td>
+// 			<td class="s_name"></td>
+// 			<td class="s_name"></td>
+// 		</tr>
+// 		<tr>
+// 			<td><div id="chart0" style="height:200px; width:200px;"></div></td>
+// 			<td><div id="chart1" style="height:200px; width:200px;"></div></td>
+// 			<td><div id="chart2" style="height:200px; width:200px;"></div></td>
+// 			<td><div id="chart3" style="height:200px; width:200px;"></div></td>
+// 			<td><div id="chart4" style="height:200px; width:200px;"></div></td>
+// 		</tr>
+		
+// 		<tr>
+// 			<td class="s_name"></td>
+// 			<td class="s_name"></td>
+// 			<td class="s_name"></td>
+// 			<td class="s_name"></td>
+// 			<td class="s_name"></td>
+// 		</tr>
+// 		<tr>
+// 			<td><div id="chart5" style="height:200px; width:200px;"></div></td>
+// 			<td><div id="chart6" style="height:200px; width:200px;"></div></td>
+// 			<td><div id="chart7" style="height:200px; width:200px;"></div></td>
+// 			<td><div id="chart8" style="height:200px; width:200px;"></div></td>
+// 			<td><div id="chart9" style="height:200px; width:200px;"></div></td>
+// 		</tr>
+// 		`;
+		let obj_mytable = document.getElementById('mytable');
+		obj_mytable.innerHTML = text;
+	}
+
+	let a = []
+function myinit(){
+	
+	drawTable();
+	
+	let arr = []
+	
+	{% for s_name in a%}
+		a.push('{{s_name}}');
+	{% endfor %}
+	
+	{% for p in b%}
+		arr.push([{{p}}]);
+	{% endfor %}
+	
+	
+	
+	let names = [];
+// 	names.push('chart0');
+// 	names.push('chart1');
+// 	names.push('chart2');
+// 	names.push('chart3');
+// 	names.push('chart4');
+	
+// 	names.push('chart5');
+// 	names.push('chart6');
+// 	names.push('chart7');
+// 	names.push('chart8');
+// 	names.push('chart9');
+
+	for(var i=0;i<a.length;i++){
+        names.push('chart'+i);
+     }
+	
+	for(let i=0; i < a.length; i++){		
+		$.jqplot (names[i], arr[i]);
+	}
+	
+	$.jqplot (names[0], arr[0]);
+    $.jqplot (names[1], arr[1]);
+    $.jqplot (names[2], arr[2]);
+    $.jqplot (names[3], arr[3]);
+    $.jqplot (names[4], arr[4]);
+	
+	set_sNames();
+	
+}
+
+</script>
+</head>
+<body>
+
+<table id="mytable" border=1>
+	<!-- <tr>
+		<td>삼성전자</td>
+		<td>삼성전자</td>
+		<td>삼성전자</td>
+		<td>삼성전자</td>
+		<td>삼성전자</td>
+	</tr>
+	<tr>
+		<td><div id="chart1" style="height:200px; width:200px;"></div></td>
+		<td><div id="chart2" style="height:200px; width:200px;"></div></td>
+		<td><div id="chart3" style="height:200px; width:200px;"></div></td>
+		<td><div id="chart4" style="height:200px; width:200px;"></div></td>
+		<td><div id="chart5" style="height:200px; width:200px;"></div></td>
+	</tr> -->
+</table>
+
+</body>
+</html>

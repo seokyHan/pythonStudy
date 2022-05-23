@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="jquery-3.6.0.min.js"></script>
+<script>
+
+let arr2D = [
+	['h_차',	'h_마', 'h_상', 'h_사', 'e', 'h_사', 'h_상', 'h_마', 'h_차'],
+	['e', 'e', 'e', 'e', 'h_왕', 'e', 'e', 'e', 'e'],
+	['e', 'h_포', 'e', 'e', 'e', 'e', 'e', 'h_포', 'e'],
+	['h_졸', 'e', 'h_졸', 'e', 'h_졸', 'e', 'h_졸', 'e', 'h_졸'],
+	['e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e'],
+	['e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e'],
+	['b_졸', 'e', 'b_졸', 'e', 'b_졸', 'e', 'b_졸', 'e', 'b_졸'],
+	['e', 'b_포', 'e', 'e', 'e', 'e', 'e', 'b_포', 'e'],
+	['e', 'e', 'e', 'e', 'b_왕', 'e', 'e', 'e', 'e'],
+	['b_차',	'b_마', 'b_상', 'b_사', 'e', 'b_사', 'b_상', 'b_마', 'b_차']
+]
+
+function myinit(){
+	mymal();
+	myrender();
+}
+
+let status_idx = 0;
+let pre_int_i = -1;
+let pre_int_j = -1;
+
+function mymove(obj){
+	let status4 = status_idx % 4;
+	let str_ij = obj.title;
+	let arr_ij = str_ij.split(",");
+	let int_i = parseInt(arr_ij[0]);
+	let int_j = parseInt(arr_ij[1]);
+	
+	if(status4 == 0 || status4 == 2){
+		let check_mal = arr2D[int_i][int_j];
+		if(check_mal == "e"){
+			return;
+		}
+	}
+	
+	if(status4 == 0){
+		let curVal = arr2D[int_i][int_j].substr(0,1);
+		if(curVal != 'b'){
+			return;
+		}
+	}
+	
+	if(status4 == 2){
+		let curVal = arr2D[int_i][int_j].substr(0,1);
+		if(curVal != 'h'){
+			return;
+		}
+	}
+	
+	if(status4 == 0 || status4 == 2){
+		pre_int_i = int_i;
+		pre_int_j = int_j;		
+	}
+	
+	if(status4 == 1 || status4 == 3){
+		// 같은자리를 두번 클릭했을경우
+		if(pre_int_i == int_i && pre_int_j == int_j){
+			return;
+		}
+		
+		let pre_mal = arr2D[pre_int_i][pre_int_j];
+		arr2D[int_i][int_j] = pre_mal;
+		arr2D[pre_int_i][pre_int_j] = "e";
+		pre_int_i = -1;
+		pre_int_j = -1;		
+		myrender();
+	}
+		
+	status_idx++;
+	
+}
+
+function mymal(){
+	const div_mal = document.querySelector('#div_mal');
+	let text = "";
+	
+	for(let i=0; i<10; i++){
+		for(let j=0; j<9; j++){
+			text += "<img class='img_mal' style='position:absolute; left:"+(j*52)+"px; top:"+(i*44)+"px' src='images/e.png' title='"+i+","+j+"' onclick='mymove(this)';/>";
+		}
+	}
+	div_mal.innerHTML = text;
+}
+
+function myrender(){
+	const img_mal = document.querySelectorAll('.img_mal');
+	
+	for(let i=0; i<10; i++){
+		for(let j=0; j<9; j++){
+			img_mal[9*i+j].src = 'images/' + arr2D[i][j] + '.png';
+		}
+	}
+}
+
+
+</script>
+</head>
+<body onload="myinit()">
+
+<img style="position:absolute" src="./images/janggipan.png" />
+<div id="div_mal" style="position:absolute">
+	
+</div>				
+
+</body>
+</html>

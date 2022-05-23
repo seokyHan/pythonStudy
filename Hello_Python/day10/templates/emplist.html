@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="jquery-3.6.0.min.js"></script>
+</head>
+<body>
+	<table border=1>
+		<tr>
+			<td>아이디</td>
+			<td>이름</td>
+			<td>성별</td>
+			<td>나이</td>
+		</tr>
+		{% for i in rst %}
+		<tr id='data'>
+			<td><a href="javascript:setData('{{i.e_id}}','{{i.e_name}}','{{i.sex}}','{{i.age}}')">
+			{{i.e_id}}</a></td>
+			<td>{{i.e_name}}</td>
+			<td>{{i.sex}}</td>
+			<td>{{i.age}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+	
+	<table border=1>
+		<tr>
+			<td>아이디</td>
+			<td><input type="text" id="e_id" size="10"/></td>
+		</tr>
+		<tr>
+			<td>이름</td>
+			<td><input type="text" id="e_name" size="10"/></td>
+		</tr>
+		<tr>
+			<td>성별</td>
+			<td><input type="text" id="sex" size="10"/></td>
+		</tr>
+		<tr>
+			<td>나이</td>
+			<td><input type="text" id="age" size="10"/></td>
+		</tr>
+		
+		<tr>
+			<td colspan="2">
+				<input type="button" value="추가" onclick="myinsert()"/>
+				<input type="button" value="수정" onclick="myupdate()"/>
+				<input type="button" value="삭제" onclick="mydelete()"/>
+			</td>
+		</tr>
+	</table>
+	
+	
+	<script>
+	
+		function setData(e_id, e_name, sex, age){
+			
+			$('#e_id').val(e_id)
+			$('#e_name').val(e_name)
+			$('#sex').val(sex)
+			$('#age').val(age)
+			
+		}
+		
+		function myinsert(){
+			
+			const e_id = $('#e_id').val();
+			const e_name = $('#e_name').val();
+			const sex = $('#sex').val();
+			const age = $('#age').val();
+			
+			const postdata = {
+					'e_id' : e_id,
+					'e_name' : e_name,
+					'sex' : sex,
+					'age' : age
+			}
+			
+			$.ajax({
+				url : 'myinsert',
+				type : 'POST',
+				data : JSON.stringify(postdata),
+				contentType : 'application/json',
+				success : function(data){
+					if(data.result == 'success'){
+						alert("정상적으로 추가되었습니다");
+						location.reload();
+					}
+				},
+				error : function(xhr){
+					alert(xhr.status);
+				},
+				dataType : 'JSON'
+			});
+			
+		}
+		
+		function myupdate(){
+			
+			const e_id = $('#e_id').val();
+			const e_name = $('#e_name').val();
+			const sex = $('#sex').val();
+			const age = $('#age').val();
+			
+			const postdata = {
+					'e_id' : e_id,
+					'e_name' : e_name,
+					'sex' : sex,
+					'age' : age
+			}
+			
+			$.ajax({
+				url : 'myupdate',
+				type : 'POST',
+				data : JSON.stringify(postdata),
+				contentType : 'application/json',
+				success : function(data){
+					if(data.result == 'success'){
+						alert("정상적으로 수정되었습니다");
+						location.reload();
+					}
+				},
+				error : function(xhr){
+					alert(xhr.status);
+				},
+				dataType : 'JSON'
+			});
+			
+		}
+		
+		function mydelete(){
+			
+			let flag = confirm('한번 삭제된 데이터는 복구할 수 없습니다. 그래도 삭제 하시겠습니까?');
+			
+			if(!flag){
+				return
+			}
+			
+			const e_id = $('#e_id').val();
+			
+			$.ajax({
+				url : 'mydelete',
+				type : 'POST',
+				data : JSON.stringify({'e_id' : e_id}),
+				contentType : 'application/json',
+				success : function(data){
+					if(data.result == 'success'){
+						alert("정상적으로 삭제되었습니다");
+						location.reload();
+					}
+				},
+				error : function(xhr){
+					alert(xhr.status);
+				},
+				dataType : 'JSON'
+			});
+			
+		}
+	</script>
+	
+</body>
+</html>
